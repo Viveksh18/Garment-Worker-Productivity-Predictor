@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Garment Worker Productivity Predictor</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+    }
+    nav {
+      background-color: #2c3e50;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav h1 {
+      color: white;
+      margin: 0;
+      font-size: 22px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      margin-left: 20px;
+    }
+    .container {
+      max-width: 600px;
+      background-color: #fff;
+      margin: 40px auto;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <h1>👷 Productivity Predictor</h1>
+    <div>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Predict Worker Productivity</h2>
+    <form action="/submit" method="POST">
+
+      <label for="quarter">Quarter</label>
+      <select name="quarter" required>
+        <option value="0">Q1</option>
+        <option value="1">Q2</option>
+        <option value="2">Q3</option>
+        <option value="3">Q4</option>
+      </select>
+
+      <label for="department">Department</label>
+      <select name="department" required>
+        <option value="0">Sewing</option>
+        <option value="1">Finishing</option>
+      </select>
+
+      <label for="day">Day</label>
+      <select name="day" required>
+        <option value="0">Monday</option>
+        <option value="1">Tuesday</option>
+        <option value="2">Wednesday</option>
+        <option value="3">Thursday</option>
+        <option value="4">Friday</option>
+        <option value="5">Saturday</option>
+        <option value="6">Sunday</option>
+      </select>
+
+      <label>Targeted Productivity</label>
+      <input type="number" name="targeted_productivity" step="any" required>
+
+      <label>SMV</label>
+      <input type="number" name="smv" step="any" required>
+
+      <label>WIP</label>
+      <input type="number" name="wip" step="any" required>
+
+      <label>Over Time</label>
+      <input type="number" name="over_time" step="any" required>
+
+      <label>Incentive</label>
+      <input type="number" name="incentive" step="any" required>
+
+      <label>Idle Time</label>
+      <input type="number" name="idle_time" step="any" required>
+
+      <label>Idle Men</label>
+      <input type="number" name="idle_men" step="any" required>
+
+      <label>No. of Style Change</label>
+      <input type="number" name="no_of_style_change" step="any" required>
+
+      <label>No. of Workers</label>
+      <input type="number" name="no_of_workers" step="any" required>
+
+      <button type="submit">🚀 Predict</button>
+    </form>
+  </div>
+</body>
+</html>
