@@ -4,7 +4,7 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Load trained model and scaler
+# ✅ Load your trained model and scaler using pickle
 model = pickle.load(open("Online_trained_model.sav", "rb"))
 scaler = pickle.load(open("scaler.pkl", "rb"))
 
@@ -16,34 +16,41 @@ def home():
 def about():
     return render_template("about.html")
 
+@app.route('/predict')
+def predict():
+    return render_template("submit.html")
+
 @app.route('/submit', methods=["POST"])
 def submit():
     try:
-        # Collect form data using .get and convert to proper type
-        data = [
-            int(request.form.get("quarter", 0)),
-            int(request.form.get("department", 0)),
-            int(request.form.get("day", 0)),
-            float(request.form.get("targeted_productivity", 0)),
-            float(request.form.get("smv", 0)),
-            float(request.form.get("wip", 0)),
-            float(request.form.get("over_time", 0)),
-            float(request.form.get("incentive", 0)),
-            float(request.form.get("idle_time", 0)),
-            float(request.form.get("idle_men", 0)),
-            float(request.form.get("no_of_style_change", 0)),
-            float(request.form.get("no_of_workers", 0))
-        ]
+        quarter = int(request.form['quarter'])
+        department = int(request.form['department'])
+        day = int(request.form['day'])
+        targeted_productivity = float(request.form['targeted_productivity'])
+        smv = float(request.form['smv'])
+        wip = float(request.form['wip'])
+        over_time = float(request.form['over_time'])
+        incentive = float(request.form['incentive'])
+        idle_time = float(request.form['idle_time'])
+        idle_men = float(request.form['idle_men'])
+        no_of_style_change = float(request.form['no_of_style_change'])
+        no_of_workers = float(request.form['no_of_workers'])
 
-        # Prepare data for prediction
-        input_data = np.array([data])
+        input_data = np.array([[quarter, department, day, targeted_productivity, smv, wip,
+                                over_time, incentive, idle_time, idle_men,
+                                no_of_style_change, no_of_workers]])
+
+        # ✅ Scale input
         scaled_data = scaler.transform(input_data)
-        prediction = model.predict(scaled_data)[0]
 
-        return render_template("submit.html", prediction=round(prediction, 4))
+        # ✅ Predict
+        prediction = model.predict(scaled_data)[0]
+        prediction = round(prediction, 4)
+
+        return render_template("submit.html", prediction=prediction)
 
     except Exception as e:
-        return f"<h3 style='color:red'>⚠️ Error: {str(e)}</h3><br><a href='/'>Back to Home</a>"
+        return f"An error occurred: {e}"
 
 if __name__ == '__main__':
     app.run(debug=True)
